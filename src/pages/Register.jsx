@@ -9,8 +9,10 @@ function Register() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
+  // Navigate function to redirect user after registration
   const navigate = useNavigate();
 
+  // Function to facilitate user registration
   const registerUser = async (e) => {
     e.preventDefault();
     try {

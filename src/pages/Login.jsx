@@ -7,15 +7,17 @@ function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  const navigate = useNavigate();
+  // Navigate function to navigate user after login
+  let navigate = useNavigate();
 
-  const login = async () => {
+  // Function to handle login
+  const login = async (e) => {
+    e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/");
     } catch (error) {
-      console.error(error);
-      // Handle login errors here, like displaying an error message
+      alert("Error: ", error);
     }
   };
 

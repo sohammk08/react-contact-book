@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { Link } from "react-router-dom";
@@ -8,22 +8,24 @@ import ContactCard from "../components/ContactCard";
 function Home() {
   const [userState, setUserState] = useState(false);
 
-  onAuthStateChanged(auth, (userState) => {
-    if (userState) {
-      setUserState(true);
-    } else {
-      console.log("No user logged in!");
-    }
-  });
+  // useEffect to manage auth state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUserState(!!user);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <div className="mt-10">
       {userState ? (
         <ContactCard
-          imageUrl = "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNhdHxlbnwwfHwwfHx8MA%3D%3D"
-          name = "Jake Riley"
-          number = "+91 9376105851"
-           />
+          imageUrl="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNhdHxlbnwwfHwwfHx8MA%3D%3D"
+          name="Jake Riley"
+          number="+91 9376105851"
+        />
       ) : (
         <div className="bg-gray-100 min-h-screen">
           <header className="bg-blue-500 text-white text-center py-8">
