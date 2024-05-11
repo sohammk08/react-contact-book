@@ -7,39 +7,53 @@ function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  // Accessing navigate function from react-router-dom
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // Handle user login
-  const login = () => {
-    signInWithEmailAndPassword(auth, email, password);
-    navigate("/");
+  const login = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      // Handle login errors here, like displaying an error message
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-cover h-vh-50">
-      <span className="mt-20 text-5xl font-vround">Login</span>
-      <form className="mt-5 flex flex-col" onSubmit={login}>
-        <label className="mt-5 mb-0">Email</label>
-        <input
-          type="text"
-          className="p-0.5 bg-white border-none rounded-md"
-          placeholder="Enter your email"
-          required
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label className="mt-10 mb-0">Password</label>
-        <input
-          type="password"
-          className="p-0.5 bg-white border-none rounded-md"
-          placeholder="Enter your password"
-          required
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button className="mt-5 cursor-pointer text-white p-2 text-center bg-lime-700 border-none rounded-md">
-          Login
-        </button>
-      </form>
+    <div className="flex flex-col items-center justify-center h-screen bg-cover">
+      <div className="bg-white rounded-lg shadow-md p-8 w-full max-w-md">
+        <h3 className="text-4xl font-bold text-center">Login</h3>
+        <form className="mt-10 flex flex-col space-y-2" onSubmit={login}>
+          <label htmlFor="email" className="text-sm font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            type="text"
+            className="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            placeholder="Enter your email"
+            required
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <label htmlFor="password" className="text-sm font-medium">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            className="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            placeholder="Enter your password"
+            required
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 transition duration-150 ease-in-out"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
